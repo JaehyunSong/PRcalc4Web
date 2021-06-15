@@ -2,3 +2,4 @@
 *.Rproj
 deploy.R
 rsconnect/
+use_ipaex_font.sh

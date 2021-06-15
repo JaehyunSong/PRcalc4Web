@@ -2,6 +2,12 @@ library(shiny)
 library(shinythemes)
 library(rhandsontable)
 library(PRcalc) # remotes::install_github("JaehyunSong/PRcalc")
+library(tidyverse)
+
+# 日本語表示用（ローカルでテスト時はコメントアウト）
+# 起動のたびにフォントダウンロードを行うため、初期起動が重い
+download.file("https://raw.githubusercontent.com/ltl-manabi/shinyapps.io_japanese_font/master/use_ipaex_font.sh", destfile = "use_ipaex_font.sh")
+system("bash ./use_ipaex_font.sh")
 
 navbarPage("PRcalc for Web", 
            selected = "比例代表配分計算", 
@@ -43,11 +49,19 @@ navbarPage("PRcalc for Web",
                           h2("データ入力"),
                           rHandsontableOutput("InputTable"),
                           hr(),
-                          h2("配分結果"),
+                          h2("要約"),
+                          p("Forthcoming"),
+                          p("(Effective Number of Parties, Gallagher Index, etc.)"),
+                          hr(),
+                          h2("配分結果 (得票数+議席数)"),
                           tableOutput("Result"),
                           hr(),
+                          h2("配分結果 (得票率+議席率)"),
+                          p("Forthcoming"),
+                          hr(),
                           h2("図"),
-                          tableOutput("msg"),
+                          p("Plot Area (forthcoming)"),
+                          plotOutput("Plot"),
                         )
                       ))),
                     
