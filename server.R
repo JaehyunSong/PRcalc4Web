@@ -19,7 +19,8 @@ shinyServer(function(input, output, session) {
       Region_Name <- unlist(strsplit(input$NewRegion, ",|、"))
       Region_Name <- gsub("[[:space:]]", "", Region_Name)
       
-      Temp_Mat <- matrix(rep(0, length(Party_Name) * length(Region_Name)),
+      Temp_Mat <- matrix(rep(NA_integer_, 
+                             length(Party_Name) * length(Region_Name)),
                          nrow = length(Party_Name))
       Temp_Mat <- as.data.frame(Temp_Mat)
       
@@ -28,7 +29,7 @@ shinyServer(function(input, output, session) {
       
       mydata <<- Temp_Mat
     }
-    rhandsontable(mydata, stretchH = "all")
+    rhandsontable(mydata, stretchH = "all", digits = 0)
   }, ignoreNULL = FALSE)
   
   
@@ -38,8 +39,6 @@ shinyServer(function(input, output, session) {
     Number_of_Seats <- unlist(mydata[1, ])
     Region_Name     <- names(mydata)
     N_Party         <- nrow(mydata) - 1
-    
-    print(Region_Name)
     
     if(length(Number_of_Seats) == 1) {
       Temp_df    <- data.frame(Vote = mydata[-1, ])
