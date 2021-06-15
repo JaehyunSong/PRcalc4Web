@@ -1,6 +1,7 @@
 library(shiny)
 library(PRcalc) # remotes::install_github("JaehyunSong/PRcalc")
 library(tidyverse)
+library(rhandsontable)
 
 # 日本語表示用（ローカルでテスト時はコメントアウト）
 # 起動のたびにフォントダウンロードを行うため、初期起動が重い
