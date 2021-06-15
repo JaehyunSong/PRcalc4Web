@@ -1,6 +1,7 @@
+library(shiny)
+library(shinythemes)
 library(rhandsontable)
 library(PRcalc) # remotes::install_github("JaehyunSong/PRcalc")
-library(shinythemes)
 
 navbarPage("PRcalc for Web", 
            selected = "比例代表配分計算", 
