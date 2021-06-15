@@ -54,10 +54,14 @@ navbarPage("PRcalc for Web",
              "使い方",
              "作成中",
              hr(),
-             "今後、{PRcalc}を大幅に修正する予定です。"
+             "今後、",
+             a(href = "https://github.com/JaehyunSong/PRcalc",
+               "{PRcalc}"),
+             "を大幅に修正する予定です。"
              ),
            tabPanel(
-             "著者について", 
+             "作成者について", 
+             tags$img(src = "Song.png", width = 250),
              h3("Jaehyun Song, Ph.D."),
              tags$ul(
                tags$li(tags$b("Affiliation: "), "Faculty of Informatics, Kansai University, Japan"), 
