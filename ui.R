@@ -6,6 +6,7 @@ library(tidyverse)
 
 # 日本語表示用（ローカルでテスト時はコメントアウト）
 # 起動のたびにフォントダウンロードを行うため、初期起動が重い
+# https://github.com/ltl-manabi/shinyapps.io_japanese_font
 download.file("https://raw.githubusercontent.com/ltl-manabi/shinyapps.io_japanese_font/master/use_ipaex_font.sh", destfile = "use_ipaex_font.sh")
 system("bash ./use_ipaex_font.sh")
 
