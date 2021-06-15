@@ -97,8 +97,9 @@ shinyServer(function(input, output, session) {
                        names_to = "Type",
                        values_to = "Count") %>%
           ungroup() %>%
-          mutate(Type = if_else(Type == "Vote", "得票", "議席"),
-                 Type = factor(Type, levels = c("得票", "議席")))
+          mutate(Type  = if_else(Type == "Vote", "得票", "議席"),
+                 Type  = factor(Type, levels = c("得票", "議席")),
+                 Party = fct_inorder(Party))
 
         Plot <- Plot_df %>%
           ggplot() +
