@@ -8,22 +8,15 @@ shinyServer(function(input, output, session) {
   output$InputTable = renderRHandsontable(df())
   
   observeEvent(input$Add_Table, {
-    print("Add On")
     Add_Table_Var <<- TRUE
   }, priority = 1)
   
   observeEvent(input$Load_Sample, {
-    print("Load On")
     Load_Sample_Var <<- TRUE
   }, priority = 2)
   
   df <- eventReactive(c(input$Add_Table, input$Load_Sample), {
     
-    print(paste0("Add: ", Add_Table_Var))
-    print(paste0("Add: ", input$Add_Table))
-    print(paste0("Sample: ", Load_Sample_Var))
-    print(paste0("Sample: ", input$Load_Sample))
-  
     if(Add_Table_Var == TRUE){
       
       Party_Name <- unlist(strsplit(input$NewParty, ",|、"))
@@ -53,6 +46,8 @@ shinyServer(function(input, output, session) {
         mydata <<- Korea_Lower_2016
       } else if (input$Sample == "jp_lower_2017") {
         mydata <<- Japan_Lower_2017
+      } else if (input$Sample == "us_census_2020") {
+        mydata <<- US_Census_2020
       }
       
       Load_Sample_Var <<- FALSE

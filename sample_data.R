@@ -23,3 +23,8 @@ Korea_Lower_2016 <- data.frame(
   全国 = c(47, 7960272, 6069744, 6355572, 1719891, 626853, 209872),
   row.names = c("議席", "セヌリ", "共に民主", "国民", "正義", "基督", "民主")
 )
+
+US_Census_2020 <- data.frame(
+  Population = c(435, 5024279, 733391, 7151502, 3011524, 39538223, 5773714, 3605944, 989948, 21538187, 10711908, 1455271, 1839106, 12812508, 6785528, 3190369, 2937880, 4505836, 4657757, 1362359, 6177224, 7029917, 10077331, 5706494, 2961279, 6154913, 1084225, 1961504, 3104614, 1377529, 9288994, 2117522, 20201249, 10439388, 779094, 11799448, 3959353, 4237256, 13011844, 1097379, 5118425, 886667, 6910840, 29145505, 3271616, 643077, 8631393, 7705281, 1793716, 5893718, 576851),
+  row.names = c("Seats", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "NewHampshire", "NewJersey", "NewMexico", "NewYork", "NorthCarolina", "NorthDakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "RhodeIsland", "SouthCarolina", "SouthDakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "WestVirginia", "Wisconsin", "Wyoming")
+)

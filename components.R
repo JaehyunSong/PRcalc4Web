@@ -13,6 +13,9 @@ Input_Pane <- sidebarPanel(
                 ),
                 "韓国" = c(
                   "総選挙 (2016)" = "ko_lower_2016"
+                ),
+                "国勢調査" = c(
+                  "アメリカ (2020)" = "us_census_2020"
                 )
               )
   ),
