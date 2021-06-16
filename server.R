@@ -36,84 +36,84 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$Calculate, {
     
-    Number_of_Seats <- unlist(mydata[1, ])
     Region_Name     <- names(mydata)
     N_Party         <- nrow(mydata) - 1
     
-    if(length(Number_of_Seats) == 1) {
-      Temp_df    <- data.frame(Vote = mydata[-1, ])
-    } else {
-      Temp_df    <- mydata[-1, ]
-    }
-    
+    Temp_df    <- mydata
     Temp_Party <- data.frame(Party = rownames(Temp_df))
-    
     Temp_df    <- cbind(Temp_Party, Temp_df)
     
-    Temp_Result <- PRcalc(nseat     = Number_of_Seats, 
-                          vote      = Temp_df, 
+    Temp_Result <- PRcalc(x         = Temp_df, 
                           threshold = input$Threshold,
-                          method    = input$method, 
-                          viewer    = FALSE)
+                          method    = input$method)
     
-    if(ncol(Temp_df) == 2) Temp_Result <- Temp_Result$df
+    if(length(Region_Name) > 1) {
+      tbl_col <- c("政党", rep(c(Region_Name, "計"), 2))
+      tbl_width <- length(Region_Name) + 1
+      summary_col <- c("指標", Region_Name, "計")
+    } else {
+      tbl_col <- c("政党", rep(Region_Name, 2))
+      tbl_width <- length(Region_Name)
+      summary_col <- c("指標", Region_Name)
+    }
     
-    output$Result <- renderTable({
-      Temp_Result
-      })
-    output$Plot  <- renderPlot({
-      if(ncol(Temp_df) == 2) {
-        
-      } else {
-        Plot_df1 <- Temp_Result %>%
-          pivot_longer(cols = starts_with("Vote"),
-                       names_to = "Region",
-                       values_to = "Vote") %>%
-          mutate(Region = rep(c(Region_Name, "合計"),
-                              N_Party),
-                 Region = fct_inorder(Region)) %>%
-          group_by(Region) %>%
-          mutate(Vote_Sum = sum(Vote),
-                 Vote = Vote / Vote_Sum * 100) %>%
-          select(-starts_with("Seat"), -Vote_Sum)
-        
-        Plot_df2 <- Temp_Result %>%
-          pivot_longer(cols = starts_with("Seat"),
-                       names_to = "Region",
-                       values_to = "Seat") %>%
-          mutate(Region = rep(c(Region_Name, "合計"),
-                              N_Party),
-                 Region = fct_inorder(Region)) %>%
-          group_by(Region) %>%
-          mutate(Seat_Sum = sum(Seat),
-                 Seat = Seat / Seat_Sum * 100) %>%
-          ungroup() %>%
-          select(-starts_with("Vote"), -Seat_Sum)
-        
-        Plot_df <- left_join(Plot_df1, Plot_df2, 
-                             by = c("Party", "Region")) %>%
-          pivot_longer(cols = Vote:Seat,
-                       names_to = "Type",
-                       values_to = "Count") %>%
-          ungroup() %>%
-          mutate(Type  = if_else(Type == "Vote", "得票", "議席"),
-                 Type  = factor(Type, levels = c("得票", "議席")),
-                 Party = fct_inorder(Party))
-
-        Plot <- Plot_df %>%
-          ggplot() +
-          geom_bar(aes(x = Party, y = Count, fill = Type), 
-                   position = position_dodge2(),
-                   stat = "identity") +
-          labs(x = "政党", y = "割合 (%)", fill = "") +
-          facet_wrap(~Region, ncol = 3) +
-          #theme_gray(base_family = "HiraKakuProN-W3",
-          theme_gray(base_family = "IPAexGothic",
-                     base_size   = 14) +
-          theme(legend.position = "bottom")
-      }
+    output$Summary <- renderText({
+      VS_df <- Rae_V <- Dhondt_V <- as_tibble(Temp_Result$VoteShare)[, -1]
+      SS_df <- Rae_S <- Dhondt_S <- as_tibble(Temp_Result$SeatShare)[, -1]
       
-      Plot
+      Rae_V[Rae_V < 0.5] <- NA
+      Rae_S[Rae_S < 0.5] <- NA
+      
+      Dhondt_V[Dhondt_V < 0.5] <- NA
+      Dhondt_S[Dhondt_S < 0.5] <- NA
+      
+      ENP_Vote  <- 1 / colSums((as_tibble(Temp_Result$VoteShare)[, -1] / 100)^2)
+      ENP_Seat  <- 1 / colSums((as_tibble(Temp_Result$SeatShare)[, -1] / 100)^2)
+      Gallagher <- sqrt(0.5 * colSums((VS_df - SS_df)^2))
+      Rose      <- colSums(abs(VS_df - SS_df)) * 0.5
+      Rae       <- colMeans(abs(Rae_V - Rae_S), na.rm = TRUE)
+      SL        <- colSums((VS_df - SS_df)^2 / VS_df)
+      Dhondt    <- map_dbl(SS_df/VS_df, max)
+      Dhondt5   <- map_dbl(Dhondt_S/Dhondt_V, max, na.rm = TRUE)
+      
+      bind_rows(list("得票" = ENP_Vote,
+                     "議席" = ENP_Seat,
+                     "Gallagher" = Gallagher,
+                     "Loosemore–Hanby" = Rose,
+                     "Rae" = Rae,
+                     "Sainte-Laguë" = SL,
+                     "D'Hondt" = Dhondt,
+                     "D'Hondt (5%)" = Dhondt5),
+                .id = "Index") %>%
+        mutate_if(is.numeric, format, digits = 2, nsmall = 2) %>%
+        kable("html", col.names = summary_col) %>%
+        kable_styling(bootstrap_options = c("striped", "hover", 
+                                            "condensed", "responsive"), 
+                      full_width = F) %>%
+        pack_rows("有効政党数", 1, 2) %>%
+        pack_rows("非比例性指数", 3, 8) %>%
+        footnote(general = "有効政党数はLaakso and Taagepera (1979)、<br/>非比例性指数はGallagher (1991)を参照",
+                 general_title = "注:",
+                 escape = FALSE)
+    })
+    
+    output$Result1 <- renderText({
+      left_join(Temp_Result$Vote, Temp_Result$Seat, by = "Party") %>%
+        kable("html", col.names = tbl_col) %>%
+        kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), 
+                      full_width = F) %>%
+        add_header_above(c("", "得票数" = tbl_width, "議席数" = tbl_width))
+    })
+    output$Result2 <- renderText({
+      left_join(Temp_Result$VoteShare, Temp_Result$SeatShare, by = "Party") %>%
+        mutate_if(is.numeric, format, digits = 2, nsmall = 2) %>%
+        kable("html", col.names = tbl_col) %>%
+        kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), 
+                      full_width = F) %>%
+        add_header_above(c("", "得票率 (%)" = tbl_width, "議席率 (%)" = tbl_width))
+    })
+    output$Plot  <- renderPlot({
+      plot(Temp_Result) + theme_gray(base_family = "IPAexGothic")
       })
   })
   

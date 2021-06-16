@@ -1,5 +1,6 @@
 .Rproj.user/
 *.Rproj
 deploy.R
+test.R
 rsconnect/
 use_ipaex_font.sh

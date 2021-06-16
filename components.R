@@ -11,12 +11,14 @@ Input_Pane <- sidebarPanel(
               "議席配分方式", 
               list(
                 "最高平均法" = c(
-                  "d’Hondt" = "dt",
-                  "Sainte-Laguë" = "sl",
+                  "D’Hondt (Jefferson)" = "dt",
+                  "Sainte-Laguë (Webster)" = "sl",
                   "Modified Sainte-Laguë" = "msl", 
-                  "Danish" = "denmark",
+                  "Danish" = "danish",
                   "Imperiali" = "imperiali", 
-                  "Huntington-Hill" = "hh"
+                  "Huntington-Hill" = "hh",
+                  "Dean" = "dean",
+                  "Adams's" = "adams"
                 ),
                 "最大余剰法" = c(
                   "Hare"  = "hare",
@@ -25,36 +27,42 @@ Input_Pane <- sidebarPanel(
                 )
               )
   ),
-  actionButton("Calculate", "計算")
+  actionButton("Calculate", "計算/再計算")
 )
 
 Main_Pane <- mainPanel(
   h2("データ入力"),
   rHandsontableOutput("InputTable"),
   hr(),
-  h2("要約"),
-  p("Forthcoming"),
-  p("(Effective Number of Parties, Gallagher Index, etc.)"),
-  hr(),
   h2("配分結果 (得票数+議席数)"),
-  tableOutput("Result"),
+  tableOutput("Result1"),
   hr(),
   h2("配分結果 (得票率+議席率)"),
-  p("Forthcoming"),
+  tableOutput("Result2"),
+  hr(),
+  h2("非比例性指標など"),
+  tableOutput("Summary"),
   hr(),
   h2("図"),
-  p("Plot Area (forthcoming)"),
-  plotOutput("Plot"),
+  plotOutput("Plot")
 )
 
 Help_Page <- tabPanel(
   "使い方",
-  "作成中",
-  hr(),
-  "今後、",
-  a(href = "https://github.com/JaehyunSong/PRcalc",
-    "{PRcalc}"),
-  "を大幅に修正する予定です。"
+  h2("PRcalc for Webの使い方"),
+  tags$ol(
+    tags$li(tags$b("Step1: "), "政党名を入力します。"),
+    tags$ul(tags$li("複数の政党を入力する場合、政党名をコンマ（「、」 or 「,」）で区切ってください。")),
+    tags$li(tags$b("Step2: "), "地域名を入力します。"),
+    tags$ul(
+      tags$li("単一ブロックの場合でも地域名を入力してください（「全国」など）。"),
+      tags$li("複数の地域を入力する場合、地域名をコンマ（「、」 or 「,」）で区切ってください。")),
+    tags$li(tags$b("Step3: "), "「入力欄生成」ボタンをクリックします。"),
+    tags$li(tags$b("Step4: "), "各政党の得票数を入力します。最上行は比例区の定数を入力します。"),
+    tags$li(tags$b("Step5: "), "阻止条項の閾値と議席期配分方式を選択します。"),
+    tags$li(tags$b("Step6: "), "「計算/再計算」ボタンをクリックします。"),
+    tags$li(tags$b("Step7: "), "データ修正、閾値の修正、議席配分方式を変更した場合、改めて「計算/再計算」ボタンをクリックしてください。")
+  )
 )
 
 About_Author <- tabPanel(
