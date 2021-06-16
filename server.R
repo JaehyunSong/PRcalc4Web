@@ -1,16 +1,30 @@
 shinyServer(function(input, output, session) {
   
+  Add_Table_Var   <- FALSE
+  Load_Sample_Var <- FALSE
+  
   mydata <- data.frame()
   
   output$InputTable = renderRHandsontable(df())
   
-  df <- eventReactive(input$Add_Table, {
+  observeEvent(input$Add_Table, {
+    print("Add On")
+    Add_Table_Var <<- TRUE
+  }, priority = 1)
+  
+  observeEvent(input$Load_Sample, {
+    print("Load On")
+    Load_Sample_Var <<- TRUE
+  }, priority = 2)
+  
+  df <- eventReactive(c(input$Add_Table, input$Load_Sample), {
     
-    if(input$NewParty != "" && 
-       !is.null(input$NewParty) && 
-       input$NewRegion != "" && 
-       !is.null(input$NewRegion) && 
-       input$Add_Table > 0){
+    print(paste0("Add: ", Add_Table_Var))
+    print(paste0("Add: ", input$Add_Table))
+    print(paste0("Sample: ", Load_Sample_Var))
+    print(paste0("Sample: ", input$Load_Sample))
+  
+    if(Add_Table_Var == TRUE){
       
       Party_Name <- unlist(strsplit(input$NewParty, ",|、"))
       Party_Name <- gsub("[[:space:]]", "", Party_Name)
@@ -28,11 +42,24 @@ shinyServer(function(input, output, session) {
       rownames(Temp_Mat) <- Party_Name
       
       mydata <<- Temp_Mat
+      
+      Add_Table_Var <<- FALSE
+      
+    } else if (Load_Sample_Var == TRUE) {
+      
+      if (input$Sample == "jp_upper_2019") {
+        mydata <<- Japan_Upper_2019
+      } else if (input$Sample == "ko_lower_2016") {
+        mydata <<- Korea_Lower_2016
+      } else if (input$Sample == "jp_lower_2017") {
+        mydata <<- Japan_Lower_2017
+      }
+      
+      Load_Sample_Var <<- FALSE
     }
     rhandsontable(mydata, stretchH = "all", digits = 0)
-  }, ignoreNULL = FALSE)
-  
-  
+  }, ignoreNULL = FALSE, ignoreInit = TRUE)
+
   
   observeEvent(input$Calculate, {
     

@@ -4,6 +4,19 @@ Input_Pane <- sidebarPanel(
   textInput('NewRegion', '新しい地域を入力 (コンマ区切り)', 
             "地域1, 地域2"),
   actionButton("Add_Table", "入力欄生成"),
+  selectInput("Sample", 
+              "サンプル・データ", 
+              list(
+                "日本" = c(
+                  "参院選 (2019)" = "jp_upper_2019",
+                  "衆院選 (2017)" = "jp_lower_2017"
+                ),
+                "韓国" = c(
+                  "総選挙 (2016)" = "ko_lower_2016"
+                )
+              )
+  ),
+  actionButton("Load_Sample", "サンプル・データ読み込み"),
   sliderInput("Threshold", "閾値 (0〜1)",
               value = 0, min = 0, max = 1,
               step = 0.01),
@@ -62,7 +75,10 @@ Help_Page <- tabPanel(
     tags$li(tags$b("Step5: "), "阻止条項の閾値と議席期配分方式を選択します。"),
     tags$li(tags$b("Step6: "), "「計算/再計算」ボタンをクリックします。"),
     tags$li(tags$b("Step7: "), "データ修正、閾値の修正、議席配分方式を変更した場合、改めて「計算/再計算」ボタンをクリックしてください。")
-  )
+  ),
+  hr(),
+  h2("サンプルデータを使う際の注意点"),
+  p("「日本: 衆院選 (2017)」の場合、実際の選挙結果と合わないブロック（東海）があります。これは立憲民主党の配分議席数より名簿上の候補者が少なかったため、自民党に議席が回ったからです。")
 )
 
 About_Author <- tabPanel(

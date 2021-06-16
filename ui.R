@@ -5,6 +5,7 @@ library(knitr)
 library(kableExtra)
 source("components.R")
 source("Calculator.R")
+source("sample_data.R")
 
 # 日本語表示用（ローカルでテスト時はコメントアウト）
 # 起動のたびにフォントダウンロードを行うため、初期起動が重い
