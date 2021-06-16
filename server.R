@@ -113,7 +113,7 @@ shinyServer(function(input, output, session) {
         add_header_above(c("", "得票率 (%)" = tbl_width, "議席率 (%)" = tbl_width))
     })
     output$Plot  <- renderPlot({
-      plot(Temp_Result) + theme_gray(base_family = "IPAexGothic")
+      plot(Temp_Result) + theme_gray(base_family = "IPAexGothic", base_size = 14)
       })
   })
   
