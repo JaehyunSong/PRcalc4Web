@@ -14,3 +14,5 @@ Sample: https://jaysong.shinyapps.io/prcalc4web/
 
 * More sample dataset
 * Internationalization
+* Interactive plot
+* Sophisticated layout
