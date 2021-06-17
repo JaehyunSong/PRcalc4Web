@@ -1,3 +1,6 @@
+i18n <- Translator$new(translation_json_path = "translations/translations.json")
+i18n$set_translation_language('ja')
+
 PRcalc <- function (x, method, threshold) {
   
   seat_vec <- as.numeric(unlist(x[1, -1]))

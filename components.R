@@ -1,40 +1,47 @@
+i18n <- Translator$new(translation_json_path = "translations/translations.json")
+i18n$set_translation_language('ja')
+
 Input_Pane <- sidebarPanel(
-  textInput('NewParty', '新しい政党を入力 (コンマ区切り)', 
-            "政党A, 政党B, 政党C"),
-  textInput('NewRegion', '新しい地域を入力 (コンマ区切り)', 
-            "地域1, 地域2"),
-  actionButton("Add_Table", "入力欄生成"),
+  shiny.i18n::usei18n(i18n),
+  textInput('NewParty', 
+            i18n$t("新しい政党を入力 (コンマ区切り)"), 
+            "Party1, Party2, Party3"),
+  textInput('NewRegion', 
+            i18n$t("新しい地域を入力 (コンマ区切り)"), 
+            "District1, District2"),
+  actionButton("Add_Table", i18n$t("入力欄生成")),
   selectInput("Sample", 
-              "サンプル・データ", 
+              i18n$t("サンプル・データ"), 
               list(
-                "日本" = c(
-                  "参院選 (2019)" = "Japan_Upper_2019",
-                  "衆院選 (2017)" = "Japan_Lower_2017",
-                  "衆院選 (2014)" = "Japan_Lower_2014",
-                  "衆院選 (2012)" = "Japan_Lower_2012",
-                  "衆院選 (2009)" = "Japan_Lower_2009"
+                "Japanese" = c(
+                  "Upper (2019)" = "Japan_Upper_2019",
+                  "Lower (2017)" = "Japan_Lower_2017",
+                  "Lower (2014)" = "Japan_Lower_2014",
+                  "Lower (2012)" = "Japan_Lower_2012",
+                  "Lower (2009)" = "Japan_Lower_2009"
                 ),
-                "韓国" = c(
-                  "総選挙 (2016)" = "Korea_Lower_2016",
-                  "総選挙 (2012)" = "Korea_Lower_2012",
-                  "総選挙 (2008)" = "Korea_Lower_2008",
-                  "総選挙 (2004)" = "Korea_Lower_2004"
+                "Korea" = c(
+                  "General Election (2016)" = "Korea_Lower_2016",
+                  "General Election (2012)" = "Korea_Lower_2012",
+                  "General Election (2008)" = "Korea_Lower_2008",
+                  "General Election (2004)" = "Korea_Lower_2004"
                 ),
-                "国勢調査" = c(
-                  "日本 (2015)" = "Japan_Census_2015",
-                  "日本 (1970)" = "Japan_Census_1970",
-                  "日本 (1945)" = "Japan_Census_1945",
-                  "日本 (1920)" = "Japan_Census_1920",
-                  "アメリカ (2020)" = "US_Census_2020"
+                "Census" = c(
+                  "Japan (2015)" = "Japan_Census_2015",
+                  "Japan (1970)" = "Japan_Census_1970",
+                  "Japan (1945)" = "Japan_Census_1945",
+                  "Japan (1920)" = "Japan_Census_1920",
+                  "US (2020)"    = "US_Census_2020"
                 )
               )
   ),
-  actionButton("Load_Sample", "サンプル・データ読み込み"),
-  sliderInput("Threshold", "閾値 (0〜1)",
+  actionButton("Load_Sample", i18n$t("サンプル・データ読み込み")),
+  sliderInput("Threshold", 
+              i18n$t("閾値 (0〜1)"),
               value = 0, min = 0, max = 1,
               step = 0.01),
   selectInput("method", 
-              "議席配分方式", 
+              i18n$t("議席配分方式"), 
               list(
                 "最高平均法" = c(
                   "D’Hondt (Jefferson)" = "dt",
@@ -53,28 +60,28 @@ Input_Pane <- sidebarPanel(
                 )
               )
   ),
-  actionButton("Calculate", "計算/再計算")
+  actionButton("Calculate", i18n$t("計算/再計算"))
 )
 
 Main_Pane <- mainPanel(
-  h2("データ入力"),
+  h2(i18n$t("データ入力")),
   rHandsontableOutput("InputTable"),
   hr(),
-  h2("配分結果 (得票数+議席数)"),
+  h2(i18n$t("配分結果 (得票数+議席数)")),
   tableOutput("Result1"),
   hr(),
-  h2("配分結果 (得票率+議席率)"),
+  h2(i18n$t("配分結果 (得票率+議席率)")),
   tableOutput("Result2"),
   hr(),
-  h2("非比例性指標など"),
+  h2(i18n$t("非比例性指標など")),
   tableOutput("Summary"),
   hr(),
-  h2("図"),
+  h2(i18n$t("図")),
   plotlyOutput("Plot")
 )
 
 Help_Page <- tabPanel(
-  "使い方",
+  i18n$t("使い方"),
   h2("PRcalc for Webの使い方"),
   tags$ol(
     tags$li(tags$b("Step1: "), "政党名を入力します。"),
@@ -127,7 +134,7 @@ Help_Page <- tabPanel(
 )
 
 About_Author <- tabPanel(
-  "作成者について", 
+  i18n$t("作成者について"), 
   tags$img(src = "Song.png", width = 250),
   h3("Jaehyun Song, Ph.D."),
   tags$ul(

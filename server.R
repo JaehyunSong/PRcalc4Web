@@ -1,4 +1,12 @@
+i18n <- Translator$new(translation_json_path = "translations/translations.json")
+i18n$set_translation_language('ja')
+shiny.i18n::usei18n(i18n)
+
 shinyServer(function(input, output, session) {
+  
+  observeEvent(input$selected_language, {
+    update_lang(session, input$selected_language)
+  })
   
   Add_Table_Var   <- FALSE
   Load_Sample_Var <- FALSE
@@ -106,8 +114,8 @@ shinyServer(function(input, output, session) {
         kable_styling(bootstrap_options = c("striped", "hover", 
                                             "condensed", "responsive"), 
                       full_width = F) %>%
-        pack_rows("有効政党数", 1, 2) %>%
-        pack_rows("非比例性指数", 3, 8)
+        pack_rows(i18n$t("有効政党数"), 1, 2) %>%
+        pack_rows(i18n$t("非比例性指数"), 3, 8)
     })
     
     output$Result1 <- renderText({

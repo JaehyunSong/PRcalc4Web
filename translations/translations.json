@@ -1,0 +1,110 @@
+{
+    "languages": ["ja", "ko", "en"],
+    "translation": [
+        {
+            "ja": "Language",
+            "ko": "Language",
+            "en": "Language"
+        },
+        {
+            "ja": "入力欄生成",
+            "ko": "데이터 입력란 생성",
+            "en": "Creat a Table"
+        },
+        {
+            "ja": "計算/再計算",
+            "ko": "계산",
+            "en": "Calculation"
+        },
+        {
+            "ja": "サンプル・データ読み込み",
+            "ko": "예제 데이터 불러오기",
+            "en": "Load Sample Dataset"
+        },
+        {
+            "ja": "サンプル・データ",
+            "ko": "예제 데이터",
+            "en": "Sample Dataset"
+        },
+        {
+            "ja": "新しい政党を入力 (コンマ区切り)",
+            "ko": "정당명 입력 (쉼표로 분할)",
+            "en": "Party Names (Comma seperated)"
+        },
+        {
+            "ja": "新しい地域を入力 (コンマ区切り)",
+            "ko": "권역명 입력 (쉼표로 분할)",
+            "en": "District Names (Comma seperated)"
+        },
+        {
+            "ja": "閾値 (0〜1)",
+            "ko": "방지조항 (0~1)",
+            "en": "Threshold (0 to 1)"
+        },
+        {
+            "ja": "議席配分方式",
+            "ko": "의석 배분 방식",
+            "en": "Methods"
+        },
+        {
+            "ja": "最高平均法",
+            "ko": "최고평균법",
+            "en": "Highest Averages Method"
+        },
+        {
+            "ja": "最大余剰法",
+            "ko": "최대잔여법",
+            "en": "Largest remainder method"
+        },
+        {
+            "ja": "データ入力",
+            "ko": "데이터 입력",
+            "en": "Input Data"
+        },
+        {
+            "ja": "配分結果 (得票数+議席数)",
+            "ko": "결과 (득표수 및 의석수)",
+            "en": "The Number of Votes and Seats"
+        },
+        {
+            "ja": "配分結果 (得票率+議席率)",
+            "ko": "결과 (득표율 및 의석율)",
+            "en": "The Share of Votes and Seats"
+        },
+        {
+            "ja": "非比例性指標など",
+            "ko": "불균형지표",
+            "en": "Disproportionality"
+        },
+        {
+            "ja": "図",
+            "ko": "그래프",
+            "en": "Plot"
+        },
+        {
+            "ja": "比例代表配分計算",
+            "ko": "비례대표 계산기",
+            "en": "Calculator"
+        },
+        {
+            "ja": "使い方",
+            "ko": "사용법",
+            "en": "How to Use"
+        },
+        {
+            "ja": "作成者について",
+            "ko": "개발자에 대해서",
+            "en": "About Author"
+        },
+        {
+            "ja": "有効政党数",
+            "ko": "유효정당수",
+            "en": "Effective Number of Parties"
+        },
+        {
+            "ja": "非比例性指数",
+            "ko": "불균형지표",
+            "en": "Disproportionality"
+        }
+    ]
+}
