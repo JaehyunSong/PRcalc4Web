@@ -29,7 +29,7 @@ PRcalc <- function (x, method, threshold) {
   names(VS_df) <- str_replace(names(VS_df), ":Vote", "")
   names(SS_df) <- str_replace(names(SS_df), ":Seat", "")
   
-  Method_full_name <- case_when(method == "hare" ~ "Hare",
+  Method_full_name <- case_when(method == "hare" ~ "Hare–Niemeyer",
                                 method == "droop" ~ "Droop",
                                 method == "imperialiQ" ~ "Imperiali Quota",
                                 method == "dt" ~ "D’Hondt (Jefferson)",
@@ -187,8 +187,6 @@ plot.PRcalc <- function(obj){
     labs(x = "政党", y = "割合 (%)", fill = "") +
     ggtitle(paste("Method:", obj$Method)) +
     facet_wrap(~Region, ncol = 3) +
-    theme_gray(base_size = 16,
-               base_family = "HiraKakuProN-W3") +
     theme(legend.position = "bottom")
     
     temp_fig

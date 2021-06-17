@@ -40,15 +40,9 @@ shinyServer(function(input, output, session) {
       
     } else if (Load_Sample_Var == TRUE) {
       
-      if (input$Sample == "jp_upper_2019") {
-        mydata <<- Japan_Upper_2019
-      } else if (input$Sample == "ko_lower_2016") {
-        mydata <<- Korea_Lower_2016
-      } else if (input$Sample == "jp_lower_2017") {
-        mydata <<- Japan_Lower_2017
-      } else if (input$Sample == "us_census_2020") {
-        mydata <<- US_Census_2020
-      }
+      sample_file_path <- paste0("Sample_Data/", input$Sample, ".csv")
+      
+      mydata <<- read.csv(sample_file_path, row.names = 1)
       
       Load_Sample_Var <<- FALSE
     }
@@ -94,8 +88,8 @@ shinyServer(function(input, output, session) {
       Gallagher <- sqrt(0.5 * colSums((VS_df - SS_df)^2))
       Rose      <- colSums(abs(VS_df - SS_df)) * 0.5
       Rae       <- colMeans(abs(Rae_V - Rae_S), na.rm = TRUE)
-      SL        <- colSums((VS_df - SS_df)^2 / VS_df)
-      Dhondt    <- map_dbl(SS_df/VS_df, max)
+      SL        <- colSums((VS_df - SS_df)^2 / VS_df, na.rm  = TRUE)
+      Dhondt    <- map_dbl(SS_df/VS_df, max, na.rm = TRUE)
       Dhondt5   <- map_dbl(Dhondt_S/Dhondt_V, max, na.rm = TRUE)
       
       bind_rows(list("得票" = ENP_Vote,
@@ -113,10 +107,7 @@ shinyServer(function(input, output, session) {
                                             "condensed", "responsive"), 
                       full_width = F) %>%
         pack_rows("有効政党数", 1, 2) %>%
-        pack_rows("非比例性指数", 3, 8) %>%
-        footnote(general = "有効政党数はLaakso and Taagepera (1979)、<br/>非比例性指数はGallagher (1991)を参照",
-                 general_title = "注:",
-                 escape = FALSE)
+        pack_rows("非比例性指数", 3, 8)
     })
     
     output$Result1 <- renderText({
@@ -134,8 +125,8 @@ shinyServer(function(input, output, session) {
                       full_width = F) %>%
         add_header_above(c("", "得票率 (%)" = tbl_width, "議席率 (%)" = tbl_width))
     })
-    output$Plot  <- renderPlot({
-      plot(Temp_Result) + theme_gray(base_family = "IPAexGothic", base_size = 14)
+    output$Plot  <- renderPlotly({
+      ggplotly(plot(Temp_Result))
       })
   })
   

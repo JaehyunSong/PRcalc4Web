@@ -8,14 +8,24 @@ Input_Pane <- sidebarPanel(
               "サンプル・データ", 
               list(
                 "日本" = c(
-                  "参院選 (2019)" = "jp_upper_2019",
-                  "衆院選 (2017)" = "jp_lower_2017"
+                  "参院選 (2019)" = "Japan_Upper_2019",
+                  "衆院選 (2017)" = "Japan_Lower_2017",
+                  "衆院選 (2014)" = "Japan_Lower_2014",
+                  "衆院選 (2012)" = "Japan_Lower_2012",
+                  "衆院選 (2009)" = "Japan_Lower_2009"
                 ),
                 "韓国" = c(
-                  "総選挙 (2016)" = "ko_lower_2016"
+                  "総選挙 (2016)" = "Korea_Lower_2016",
+                  "総選挙 (2012)" = "Korea_Lower_2012",
+                  "総選挙 (2008)" = "Korea_Lower_2008",
+                  "総選挙 (2004)" = "Korea_Lower_2004"
                 ),
                 "国勢調査" = c(
-                  "アメリカ (2020)" = "us_census_2020"
+                  "日本 (2015)" = "Japan_Census_2015",
+                  "日本 (1970)" = "Japan_Census_1970",
+                  "日本 (1945)" = "Japan_Census_1945",
+                  "日本 (1920)" = "Japan_Census_1920",
+                  "アメリカ (2020)" = "US_Census_2020"
                 )
               )
   ),
@@ -37,7 +47,7 @@ Input_Pane <- sidebarPanel(
                   "Adams's" = "adams"
                 ),
                 "最大余剰法" = c(
-                  "Hare"  = "hare",
+                  "Hare–Niemeyer"  = "hare",
                   "Droop" = "droop",
                   "Imperiali Quota" = "imperialiQ"
                 )
@@ -60,7 +70,7 @@ Main_Pane <- mainPanel(
   tableOutput("Summary"),
   hr(),
   h2("図"),
-  plotOutput("Plot")
+  plotlyOutput("Plot")
 )
 
 Help_Page <- tabPanel(
@@ -99,6 +109,20 @@ Help_Page <- tabPanel(
     tags$ul(
       tags$li("アメリカ (2020): 50州のみ（ワシントンDC、プエルトリコなどは除外）")
     )
+  ),
+  hr(),
+  h2("各種指標について"),
+  tags$ul(
+    tags$li(tags$b("有効政党数: "), 'Laakso, Markku and Rein Taagepera (1979). ""Effective" Number of Parties: A Measure with Application to West Europe". Comparative Political Studies. 12 (1): 3–27.'),
+    tags$li(tags$b("非比例性指数: "), 'Gallagher, Michael (1991). "Proportionality, Disproportionality and Electoral Systems". Electoral Studies. 10: 33–51.'),
+  ),
+  hr(),
+  h2("今後の予定"),
+  tags$ul(
+    tags$li("サンプル・データの追加"),
+    tags$li("{ggplot2}から{plotly}へ移行"),
+    tags$li("レイアウトの変更"),
+    tags$li("その他")
   )
 )
 
