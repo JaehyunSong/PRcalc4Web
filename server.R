@@ -29,7 +29,7 @@ shinyServer(function(input, output, session) {
       
       Party_Name <- unlist(strsplit(input$NewParty, ",|、"))
       Party_Name <- gsub("[[:space:]]", "", Party_Name)
-      Party_Name <- c("定数", Party_Name)
+      Party_Name <- c(i18n$t("定数"), Party_Name)
       
       Region_Name <- unlist(strsplit(input$NewRegion, ",|、"))
       Region_Name <- gsub("[[:space:]]", "", Region_Name)
@@ -54,7 +54,8 @@ shinyServer(function(input, output, session) {
       
       Load_Sample_Var <<- FALSE
     }
-    rhandsontable(mydata, stretchH = "all", digits = 0)
+    rhandsontable(mydata, stretchH = "all", 
+                  digits = 0, rowHeaderWidth = 75)
   }, ignoreNULL = FALSE, ignoreInit = TRUE)
 
   
@@ -72,13 +73,13 @@ shinyServer(function(input, output, session) {
                           method    = input$method)
     
     if(length(Region_Name) > 1) {
-      tbl_col <- c("政党", rep(c(Region_Name, "計"), 2))
+      tbl_col <- c(i18n$t("政党"), rep(c(Region_Name, i18n$t("計")), 2))
       tbl_width <- length(Region_Name) + 1
-      summary_col <- c("指標", Region_Name, "計")
+      summary_col <- c(i18n$t("指標"), Region_Name, i18n$t("計"))
     } else {
-      tbl_col <- c("政党", rep(Region_Name, 2))
+      tbl_col <- c(i18n$t("政党"), rep(Region_Name, 2))
       tbl_width <- length(Region_Name)
-      summary_col <- c("指標", Region_Name)
+      summary_col <- c(i18n$t("指標"), Region_Name)
     }
     
     output$Summary <- renderText({
@@ -100,15 +101,19 @@ shinyServer(function(input, output, session) {
       Dhondt    <- map_dbl(SS_df/VS_df, max, na.rm = TRUE)
       Dhondt5   <- map_dbl(Dhondt_S/Dhondt_V, max, na.rm = TRUE)
       
-      bind_rows(list("得票" = ENP_Vote,
-                     "議席" = ENP_Seat,
-                     "Gallagher" = Gallagher,
-                     "Loosemore–Hanby" = Rose,
-                     "Rae" = Rae,
-                     "Sainte-Laguë" = SL,
-                     "D'Hondt" = Dhondt,
-                     "D'Hondt (5%)" = Dhondt5),
-                .id = "Index") %>%
+      index_df <- bind_rows(list("得票" = ENP_Vote,
+                                 "議席" = ENP_Seat,
+                                 "Gallagher" = Gallagher,
+                                 "Loosemore–Hanby" = Rose,
+                                 "Rae" = Rae,
+                                 "Sainte-Laguë" = SL,
+                                 "D'Hondt" = Dhondt,
+                                 "D'Hondt (5%)" = Dhondt5),
+                            .id = "Index")
+      
+      index_df$Index <- c(i18n$t("得票"), i18n$t("議席"), index_df$Index[-(1:2)])
+      
+      index_df %>%
         mutate_if(is.numeric, format, digits = 2, nsmall = 2) %>%
         kable("html", col.names = summary_col) %>%
         kable_styling(bootstrap_options = c("striped", "hover", 
