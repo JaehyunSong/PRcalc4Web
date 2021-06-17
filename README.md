@@ -1,7 +1,6 @@
 # PRcalc for Web 0.0.1
 
 Sample: https://jaysong.shinyapps.io/prcalc4web/
-* It takes few seconds (~30 sec.) to launch the page due to download Japanese font.
 
 ## Author Information
 
