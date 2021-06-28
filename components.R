@@ -64,19 +64,19 @@ Input_Pane <- sidebarPanel(
 )
 
 Main_Pane <- mainPanel(
-  h2(i18n$t("データ入力")),
+  h3(i18n$t("データ入力")),
   rHandsontableOutput("InputTable"),
   hr(),
-  h2(i18n$t("配分結果 (得票数+議席数)")),
+  h3(i18n$t("配分結果 (得票数+議席数)")),
   tableOutput("Result1"),
   hr(),
-  h2(i18n$t("配分結果 (得票率+議席率)")),
+  h3(i18n$t("配分結果 (得票率+議席率)")),
   tableOutput("Result2"),
   hr(),
-  h2(i18n$t("非比例性指標など")),
+  h3(i18n$t("非比例性指標など")),
   tableOutput("Summary"),
   hr(),
-  h2(i18n$t("図")),
+  h3(i18n$t("図")),
   plotlyOutput("Plot")
 )
 
