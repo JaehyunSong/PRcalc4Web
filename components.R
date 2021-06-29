@@ -53,7 +53,7 @@ Input_Pane <- sidebarPanel(
                   "Dean" = "dean",
                   "Adams's" = "adams"
                 ),
-                "最大余剰法" = c(
+                "最大剰余法" = c(
                   "Hare–Niemeyer"  = "hare",
                   "Droop" = "droop",
                   "Imperiali Quota" = "imperialiQ"
