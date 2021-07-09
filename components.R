@@ -68,7 +68,7 @@ Main_Pane <- mainPanel(
   rHandsontableOutput("InputTable"),
   hr(),
   h3(i18n$t("配分結果 (得票数+議席数)")),
-  downloadButton('Download',"表ダウンロード"),
+  downloadButton('Download',i18n$t("表ダウンロード")),
   tableOutput("Result1"),
   #dataTableOutput("Result1"),
   hr(),
