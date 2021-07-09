@@ -145,33 +145,25 @@ shinyServer(function(input, output, session) {
     })
     
     # 表ダウンロード（数）
-    output$Download1 <- downloadHandler(
+    output$Download <- downloadHandler(
       filename = function() {
-        paste(input$dataset, ".csv", sep = "")
-      },
-      content = function(filename) {
-        temp_data1 <- as_tibble(Temp_Result$VoteShare) %>%
-          rename_with(~paste0("得票率_", .x), .cols = -1)
-        temp_data2 <- as_tibble(Temp_Result$SeatShare) %>%
-          rename_with(~paste0("議席率_", .x), .cols = -1)
-        
-        temp_data <- left_join(temp_data1, temp_data2, by = "Party")
-        write.csv(temp_data, filename, row.names = FALSE)
-      }
-    )
-    
-    # 表ダウンロード（率）
-    output$Download2 <- downloadHandler(
-      filename = function() {
-        paste(input$dataset, ".csv", sep = "")
+        paste0("PRcalc_",
+               str_replace(str_replace_all(Sys.time(), ":", "-"), " ", "_"),
+               ".csv")
       },
       content = function(filename) {
         temp_data1 <- as_tibble(Temp_Result$Vote) %>%
           rename_with(~paste0("得票数_", .x), .cols = -1)
         temp_data2 <- as_tibble(Temp_Result$Seat) %>%
           rename_with(~paste0("議席数_", .x), .cols = -1)
+        temp_data3 <- as_tibble(Temp_Result$VoteShare) %>%
+          rename_with(~paste0("得票率_", .x), .cols = -1)
+        temp_data4 <- as_tibble(Temp_Result$SeatShare) %>%
+          rename_with(~paste0("議席率_", .x), .cols = -1)
         
-        temp_data <- left_join(temp_data1, temp_data2, by = "Party")
+        temp_data <- left_join(temp_data1, temp_data2, by = "Party") %>%
+          left_join(temp_data3, by = "Party") %>% 
+          left_join(temp_data4, by = "Party")
         write.csv(temp_data, filename, row.names = FALSE)
       }
     )
