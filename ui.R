@@ -5,6 +5,7 @@ library(knitr)
 library(kableExtra)
 library(plotly)
 library(shiny.i18n)
+library(DT)
 source("components.R")
 source("Calculator.R")
 
