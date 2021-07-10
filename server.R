@@ -145,7 +145,7 @@ shinyServer(function(input, output, session) {
     })
     
     # 表ダウンロード（数）
-    output$Download <- downloadHandler(
+    output$Download1 <- downloadHandler(
       filename = function() {
         paste0("PRcalc_",
                str_replace(str_replace_all(Sys.time(), ":", "-"), " ", "_"),
@@ -170,7 +170,37 @@ shinyServer(function(input, output, session) {
           left_join(temp_data4, by = "Party") %>%
           rename("政党" = "Party") %>%
           mutate(across(where(is.numeric), round, 3))
-        write.csv(temp_data, filename, row.names = FALSE)
+        write.csv(temp_data, filename, row.names = FALSE, 
+                  fileEncoding = "UTF-8")
+      }
+    )
+    output$Download2 <- downloadHandler(
+      filename = function() {
+        paste0("PRcalc_",
+               str_replace(str_replace_all(Sys.time(), ":", "-"), " ", "_"),
+               ".csv")
+      },
+      content = function(filename) {
+        temp_data1 <- as_tibble(Temp_Result$Vote) %>%
+          rename_with(~paste0("得票数_", .x), .cols = -1) %>%
+          rename_with(~"得票数_計", .cols = ends_with("Total"))
+        temp_data2 <- as_tibble(Temp_Result$Seat) %>%
+          rename_with(~paste0("議席数_", .x), .cols = -1) %>%
+          rename_with(~"議席数_計", .cols = ends_with("Total"))
+        temp_data3 <- as_tibble(Temp_Result$VoteShare) %>%
+          rename_with(~paste0("得票率_", .x), .cols = -1) %>%
+          rename_with(~"得票率_計", .cols = ends_with("Total"))
+        temp_data4 <- as_tibble(Temp_Result$SeatShare) %>%
+          rename_with(~paste0("議席率_", .x), .cols = -1) %>%
+          rename_with(~"議席率_計", .cols = ends_with("Total"))
+        
+        temp_data <- left_join(temp_data1, temp_data2, by = "Party") %>%
+          left_join(temp_data3, by = "Party") %>% 
+          left_join(temp_data4, by = "Party") %>%
+          rename("政党" = "Party") %>%
+          mutate(across(where(is.numeric), round, 3))
+        write.csv(temp_data, filename, row.names = FALSE, 
+                  fileEncoding = "CP932")
       }
     )
   })

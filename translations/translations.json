@@ -137,9 +137,15 @@
             "en": "Seats"
         },
         {
-            "ja": "表ダウンロード",
-            "ko": "표 다운로드",
-            "en": "Download the table"
+            "ja": "表ダウンロード (UTF-8)",
+            "ko": "표 다운로드 (UTF-8)",
+            "en": "Download the table (UTF-8)"
+        }
+        ,
+        {
+            "ja": "表ダウンロード (Shift-JIS)",
+            "ko": "표 다운로드 (Shift-JIS)",
+            "en": "Download the table (Shift-JIS)"
         }
     ]
 }
