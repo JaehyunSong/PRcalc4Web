@@ -147,7 +147,19 @@ shinyServer(function(input, output, session) {
     # 表ダウンロード（数）
     output$Download1 <- downloadHandler(
       filename = function() {
+        method <- case_when(input$method == "dt" ~ "DHondt",
+                            input$method == "sl" ~ "SainteLague",
+                            input$method == "msl" ~ "ModifiedSaintLague",
+                            input$method == "danish" ~ "Danish",
+                            input$method == "imperiali" ~ "Imperiali",
+                            input$method == "hh" ~ "Hill",
+                            input$method == "dean" ~ "Dean",
+                            input$method == "adams" ~ "Adams",
+                            input$method == "hare" ~ "Hare",
+                            input$method == "droop" ~ "Droop",
+                            input$method == "imperialiQ" ~ "ImperialiQ")
         paste0("PRcalc_",
+               method, "_",
                str_replace(str_replace_all(Sys.time(), ":", "-"), " ", "_"),
                ".csv")
       },
@@ -176,7 +188,19 @@ shinyServer(function(input, output, session) {
     )
     output$Download2 <- downloadHandler(
       filename = function() {
+        method <- case_when(input$method == "dt" ~ "DHondt",
+                            input$method == "sl" ~ "SainteLague",
+                            input$method == "msl" ~ "ModifiedSaintLague",
+                            input$method == "danish" ~ "Danish",
+                            input$method == "imperiali" ~ "Imperiali",
+                            input$method == "hh" ~ "Hill",
+                            input$method == "dean" ~ "Dean",
+                            input$method == "adams" ~ "Adams",
+                            input$method == "hare" ~ "Hare",
+                            input$method == "droop" ~ "Droop",
+                            input$method == "imperialiQ" ~ "ImperialiQ")
         paste0("PRcalc_",
+               method, "_",
                str_replace(str_replace_all(Sys.time(), ":", "-"), " ", "_"),
                ".csv")
       },
