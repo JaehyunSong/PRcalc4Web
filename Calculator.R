@@ -194,7 +194,8 @@ plot.PRcalc <- function(obj){
     ggtitle(paste("Method:", obj$Method)) +
     facet_wrap(~Region, ncol = 3) +
     theme(legend.position = "bottom",
-          axis.text.x = element_text(angle = 40, vjust = 1, hjust = 1))
+          axis.text.x = element_text(angle = 40, vjust = 1, hjust = 1),
+          axis.title.x = element_blank())
     
     temp_fig
 }
