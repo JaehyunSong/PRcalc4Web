@@ -55,7 +55,7 @@ PRcalc <- function (x, method, threshold) {
   PRcalc_Result
 }
 
-
+# ブロック制の場合
 MultiRegion <- function(x, seat, method, threshold) {
   multi_result <- list()
   region_list <- names(x)[-1]
@@ -89,6 +89,7 @@ MultiRegion <- function(x, seat, method, threshold) {
   multi_result
 }
 
+# 最大余剰法
 LRM <- function(x, seat, method, threshold, region) {
   temp_x        <- x
   names(temp_x) <- c("Party", "Vote")
@@ -116,6 +117,7 @@ LRM <- function(x, seat, method, threshold, region) {
   result
 }
 
+# 最高平均法
 HAE <- function(x, seat, method, threshold, region) {
   
   hae_df <- x
@@ -177,6 +179,7 @@ HAE <- function(x, seat, method, threshold, region) {
   hae_result
 }
 
+# 計算結果の可視化
 plot.PRcalc <- function(obj){
   temp_fig <- bind_rows(obj[3:4], .id = "Type") %>%
     pivot_longer(cols = -c(Type, Party),
@@ -190,7 +193,8 @@ plot.PRcalc <- function(obj){
     labs(x = "政党", y = "割合 (%)", fill = "") +
     ggtitle(paste("Method:", obj$Method)) +
     facet_wrap(~Region, ncol = 3) +
-    theme(legend.position = "bottom")
+    theme(legend.position = "bottom",
+          axis.text.x = element_text(angle = 40, vjust = 1, hjust = 1))
     
     temp_fig
 }
